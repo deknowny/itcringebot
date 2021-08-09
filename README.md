@@ -9,7 +9,9 @@
 > This script parses posts from your VK group and publishes them in the Telegram channel (text and photos).
 
 ## Install
-    None
+```bash
+git clone https://github.com/Moonquit/itcringebot.git
+```
 
 ## Run
 * Install dependencies

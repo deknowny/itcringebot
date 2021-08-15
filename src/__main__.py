@@ -66,7 +66,7 @@ def create_tg_post(attachments, post_text):
         })
 
     resp = requests.post(url, params=params).json()
-    if resp['ok'] is not True:
+    if not resp['ok']:
         raise Exception(f'TG API Error: {resp}')
 
 

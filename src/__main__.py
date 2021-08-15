@@ -8,14 +8,15 @@ import requests
 
 from src import constants, config
 
-# configure the VK API
+
+# Configure the VK API
 vk = vk_api.VkApi(
     token=config.VK_TOKEN,
     api_version=config.VK_API_VERSION
 )
 api = vk.get_api()
 
-# configure the logger
+# Configure the logger
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(message)s",
@@ -23,7 +24,7 @@ logging.basicConfig(
 )
 
 
-# helper functions
+# Helper functions
 def get_group():
     return api.groups.getById()[0]
 

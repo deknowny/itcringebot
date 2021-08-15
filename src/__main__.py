@@ -34,10 +34,10 @@ def create_tg_post(attachments, post_text):
 
     if len(attachments) == 0:
         url += '/sendMessage'
-        params.update({'text': post_text})
+        params.update(text=post_text)
     elif len(attachments) == 1:
         url += '/sendPhoto'
-        params.update({'caption': post_text, 'photo': attachments[0]})
+        params.update(caption=post_text, photo=attachments[0])
     else:
         url += '/sendMediaGroup'
         pattern = """

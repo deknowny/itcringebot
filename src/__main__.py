@@ -64,12 +64,10 @@ def create_tg_post(attachments: typing.List[dict], post_text: str) -> None:
 def run_polling(lp: vk_api.VkBotLongPoll):
     for event in lp.listen():
         try:
-            if event.type == VkBotEventType.WALL_POST_NEW:
-                if 'attachments' in event.object:
-                    attachments = []
-                    for attach in event.object['attachments']:
-                        if attach['type'] == 'photo':
-                            attachments.append(attach['photo']['sizes'][-1]['url'])
+            if event.type == VkBotEventType.WALL_POST_NEW and 'attachments' in event.object and event.object['attachments']:
+                for attach in event.object['attachments']:
+                    if attach['type'] == 'photo':
+                        attachments.append(attach['photo']['sizes'][-1]['url'])
 
                 create_tg_post(attachments, event.object['text'])
         except Exception as err:

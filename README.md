@@ -23,7 +23,7 @@ pip install -r requirements.txt
 
 * Run
 ```bash
-python main.py
+python -m src
 ```
 
 ## Run (Docker)

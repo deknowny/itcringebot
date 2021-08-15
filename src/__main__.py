@@ -80,9 +80,9 @@ def main() -> None:
         api_version=config.VK_API_VERSION
     )
     api = vk.get_api()
-    longpoll = VkBotLongPoll(vk, group['id'])
-                      
     group = api.groups.getById()[0]   
+    longpoll = VkBotLongPoll(vk, group['id'])
+    
     logging.info('VK Group <%s> (vk.com/%s) listening', group['name'], group['screen_name'])
     
     run_polling(longpoll)

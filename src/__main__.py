@@ -1,4 +1,5 @@
 import logging
+import typing
 import traceback
 
 import vk_api
@@ -24,12 +25,17 @@ logging.basicConfig(
 )
 
 
-# Helper functions
-def get_group():
+def get_group() -> typing.List[dict]:
+    """
+    Fetch current group owns the token
+    """
     return api.groups.getById()[0]
 
 
-def create_tg_post(attachments, post_text):
+def create_tg_post(attachments: typing.List[dict], post_text: str) -> None:
+    """
+    Make a telegram post via vk post's attachments
+    """
     url = constants.API_URL + config.TG_TOKEN
     params = {'chat_id': config.TG_CHANNEL}
 
@@ -69,7 +75,7 @@ def create_tg_post(attachments, post_text):
         raise Exception(f'TG API Error: {resp}')
 
 
-def main():
+def main() -> None:
     group = get_group()
     logging.info('VK Group <{}> (vk.com/{}) listening.'.format(
         group['name'], group['screen_name']

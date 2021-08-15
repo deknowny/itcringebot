@@ -77,9 +77,7 @@ def create_tg_post(attachments: typing.List[dict], post_text: str) -> None:
 
 def main() -> None:
     group = get_group()
-    logging.info('VK Group <{}> (vk.com/{}) listening.'.format(
-        group['name'], group['screen_name']
-    ))
+    logging.info('VK Group <%s> (vk.com/%s) listening', group['name'], group['screen_name'])
     longpoll = VkBotLongPoll(vk, group['id'])
 
     for event in longpoll.listen():

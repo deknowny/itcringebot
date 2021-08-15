@@ -18,13 +18,6 @@ logging.basicConfig(
 )
 
 
-def get_group(api: vk_api.VkApi) -> typing.List[dict]:
-    """
-    Fetch current group owns the token
-    """
-    return api.groups.getById()[0]
-
-
 def create_tg_post(attachments: typing.List[dict], post_text: str) -> None:
     """
     Make a telegram post via vk post's attachments
@@ -68,18 +61,8 @@ def create_tg_post(attachments: typing.List[dict], post_text: str) -> None:
         raise Exception(f'TG API Error: {resp}')
 
 
-def main() -> None:
-    group = get_group()
-    logging.info('VK Group <%s> (vk.com/%s) listening', group['name'], group['screen_name'])
-                      
-    vk = vk_api.VkApi(
-        token=config.VK_TOKEN,
-        api_version=config.VK_API_VERSION
-    )
-    api = vk.get_api()
-    longpoll = VkBotLongPoll(vk, group['id'])
-
-    for event in longpoll.listen():
+def run_polling(lp: vk_api.VkBotLongPoll):
+    for event in lp.listen():
         try:
             if event.type == VkBotEventType.WALL_POST_NEW:
                 if 'attachments' in event.object:
@@ -91,6 +74,20 @@ def main() -> None:
                 create_tg_post(attachments, event.object['text'])
         except Exception as err:
             logging.error(traceback.format_exc())
+
+
+def main() -> None: 
+    vk = vk_api.VkApi(
+        token=config.VK_TOKEN,
+        api_version=config.VK_API_VERSION
+    )
+    api = vk.get_api()
+    longpoll = VkBotLongPoll(vk, group['id'])
+                      
+    group = api.groups.getById()[0]   
+    logging.info('VK Group <%s> (vk.com/%s) listening', group['name'], group['screen_name'])
+    
+    run_polling(longpoll)
 
 
 if __name__ == '__main__':

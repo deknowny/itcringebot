@@ -10,13 +10,6 @@ import requests
 from src import constants, config
 
 
-# Configure the VK API
-vk = vk_api.VkApi(
-    token=config.VK_TOKEN,
-    api_version=config.VK_API_VERSION
-)
-api = vk.get_api()
-
 # Configure the logger
 logging.basicConfig(
     level=logging.INFO,
@@ -25,7 +18,7 @@ logging.basicConfig(
 )
 
 
-def get_group() -> typing.List[dict]:
+def get_group(api: vk_api.VkApi) -> typing.List[dict]:
     """
     Fetch current group owns the token
     """
@@ -78,14 +71,19 @@ def create_tg_post(attachments: typing.List[dict], post_text: str) -> None:
 def main() -> None:
     group = get_group()
     logging.info('VK Group <%s> (vk.com/%s) listening', group['name'], group['screen_name'])
+                      
+    vk = vk_api.VkApi(
+        token=config.VK_TOKEN,
+        api_version=config.VK_API_VERSION
+    )
+    api = vk.get_api()
     longpoll = VkBotLongPoll(vk, group['id'])
 
     for event in longpoll.listen():
         try:
             if event.type == VkBotEventType.WALL_POST_NEW:
-                attachments = []
-
                 if 'attachments' in event.object:
+                    attachments = []
                     for attach in event.object['attachments']:
                         if attach['type'] == 'photo':
                             attachments.append(attach['photo']['sizes'][-1]['url'])

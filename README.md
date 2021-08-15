@@ -16,7 +16,7 @@ git clone https://github.com/Moonquit/itcringebot.git
 ## Run
 * Install dependencies
 ```bash
-pip Install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 * Configure `config.py`

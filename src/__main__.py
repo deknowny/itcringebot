@@ -54,7 +54,7 @@ def create_tg_post(attachments: typing.List[dict], post_text: str) -> None:
             if count != len(attachments):
                 formatted_text += ','
 
-        params.update(media=f'[{formatted_text}]'
+        params.update(media=f'[{formatted_text}]')
 
     resp = requests.post(url, params=params).json()
     if not resp['ok']:
